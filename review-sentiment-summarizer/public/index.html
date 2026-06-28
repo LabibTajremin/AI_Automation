@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Review Sentiment Summarizer</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 16px; color: #222; }
+  h1 { font-size: 1.4rem; }
+  textarea { width: 100%; height: 280px; box-sizing: border-box; font-family: inherit; padding: 8px; }
+  button { margin-top: 12px; padding: 10px 20px; font-size: 1rem; cursor: pointer; }
+  pre { white-space: pre-wrap; background: #f5f5f5; padding: 16px; border-radius: 6px; }
+</style>
+</head>
+<body>
+  <h1>Review Sentiment Summarizer</h1>
+  <p>Paste customer reviews (one per line) to get a sentiment breakdown, top praises/complaints, and suggested actions.</p>
+  <textarea id="reviews" placeholder="Great service, will come back again!&#10;Food was cold when it arrived.&#10;..."></textarea>
+  <button id="run">Summarize</button>
+  <p id="status"></p>
+  <pre id="result"></pre>
+
+<script>
+  document.getElementById("run").addEventListener("click", async () => {
+    const reviews = document.getElementById("reviews").value.trim();
+    const status = document.getElementById("status");
+    const result = document.getElementById("result");
+    result.textContent = "";
+    if (!reviews) {
+      status.textContent = "Please paste at least one review.";
+      return;
+    }
+    status.textContent = "Summarizing...";
+    try {
+      const res = await fetch("/api/summarize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Request failed");
+      status.textContent = "";
+      result.textContent = data.result;
+    } catch (err) {
+      status.textContent = "Error: " + err.message;
+    }
+  });
+</script>
+</body>
+</html>
