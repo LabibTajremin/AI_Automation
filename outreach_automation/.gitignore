@@ -1,0 +1,6 @@
+.env
+output/*.csv
+data/leads.csv
+data/job_postings.csv
+__pycache__/
+*.pyc

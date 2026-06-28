@@ -1,0 +1,3 @@
+title,description
+Build a simple AI chatbot for our Shopify store,"We need a chatbot that answers FAQs about shipping and returns, integrated into our Shopify storefront. Must use an LLM API, not a rules engine."
+Automate lead intake from web form to CRM with AI summary,"Currently leads come in via a web form and someone manually copies them into our CRM and writes a summary. We want this automated end to end."
